@@ -1,0 +1,172 @@
+1 BOGGLER BY KAY SAVETZ, CIRCA 1988
+10 CLR :POKE 82,0:DIM A(26,24),D$(10),MSG$(40)
+15 IN=20:FSET=25:MSG=30:KILL=45:INP=46
+16 HAPPEN=0
+19 GOTO 50
+20 INPUT #16,D$:RETURN 
+25 IF F=1 THEN AX=1:AY=0
+26 IF F=2 THEN AX=1:AY=1
+27 IF F=3 THEN AX=0:AY=+1
+28 IF F=4 THEN AX=-1:AY=1
+29 RETURN 
+30 ZZ=INT(RND(0)*10)+1:THINK=1
+31 IF ZZ=1 THEN MSG$="Let me ponder this...                 "
+32 IF ZZ=2 THEN MSG$="Hmmmm.                                "
+33 IF ZZ=3 THEN MSG$="Tricky!                               "
+34 IF ZZ=4 THEN MSG$="I'm working on it.                    "
+35 IF ZZ=5 THEN MSG$="Let's see...                          "
+36 IF ZZ=6 THEN MSG$="Think, think, think...                "
+37 IF ZZ=7 THEN MSG$="You are no match for my computer brain"
+38 IF ZZ=8 THEN MSG$="I don't know about this...?           "
+39 IF ZZ=9 THEN MSG$="You crave a bagel.                    "
+40 ? MSG$;:RETURN 
+45 THINK=0:FOR ZZ=1 TO LEN(MSG$):? "~";:NEXT ZZ:RETURN 
+46 TRAP 46:INPUT #16,F:RETURN 
+47 ? :? "Play again? [y/N] >";:GOSUB IN:IF D$(1,1)="Y" OR D$(1,1)="y" THEN 10
+48 ? :? "Bye, sucker!":END 
+50 ? "}":? "Ω¬ÔÁÁÏÂÚ°Ω   Ver:2.0     "
+52 ? "A game of skill and stragedy"
+54 ? "by KEVIN KOMIX"
+55 ? :? :? ">Wait";
+56 FOR D=0 TO 26:FOR E=0 TO 24:A(D,E)=0:NEXT E:? ".";:NEXT D
+60 FOR E=0 TO 24:FOR D=0 TO 3:A(D,E)=9:NEXT D:NEXT E:? ".";
+62 FOR D=0 TO 26:FOR E=20 TO 24:A(D,E)=9:NEXT E:NEXT D:? ".";
+63 FOR D=0 TO 26:FOR E=0 TO 3:A(D,E)=9:NEXT E:NEXT D:? ".";
+65 FOR D=0 TO 24:FOR E=15 TO 26:A(E,D)=9:NEXT E:NEXT D
+68 ? ".";
+70 ? :? :? "Would you like to go first? [y/N] >";:GOSUB IN:IF D$="" THEN D$="N"
+72 D$=D$(1,1)
+73 IF D$="^" THEN ? :? "...And a big HELLO to ALLI CAT, and all":? "other intelligent life forms out":? "there!":GOTO 70
+75 IF D$<>"Y" AND D$<>"N" AND D$<>"y" AND D$<>"n" THEN ? "Please type Yes or No.":GOTO 70
+76 IF D$="Y" OR D$="y" THEN MOVE=1
+77 IF D$="N" OR D$="n" THEN MOVE=2
+99 ? :? "Okay! Press return to begin! ";:GOSUB IN:HOLD=9
+100 TRAP 100:? "}":? "       Ω¬ÔÁÁÏÂÚ°Ω":? 
+102 ? "       * = player"
+103 ? "       o = computer"
+104 ? 
+108 ? "    ABCDEFGHIJKLMNOP"
+110 FOR D=3 TO 15:IF D=3 OR D=15 THEN ? "   ";
+111 FOR E=3 TO 20
+115 IF A(D,E)=9 THEN ? "=";
+116 IF A(D,E)=0 THEN ? ".";
+117 IF A(D,E)=1 THEN ? "*";
+118 IF A(D,E)=2 THEN ? "o";
+119 NEXT E:? :IF D-2<12 THEN ? D-2;" ";:IF D-2<10 THEN ? " ";
+120 NEXT D
+125 IF MOVE<>1 THEN 201
+130 ? "Your move!":TRAP 133
+131 ? "Row (1-11) -->";:GOSUB IN
+132 D=VAL(D$):IF D>0 AND D<12 THEN 144
+133 TRAP 133:GOTO 131
+144 ? "Column (A-P) -->";:GOSUB IN
+145 E=ASC(D$):E=E-64
+146 IF E<1 OR E>16 THEN 140
+150 IF A(D+3,E+3)<>0 THEN ? "That space is occupied.":GOTO 131
+166 ? "OK.":? 
+170 A(D+3,E+3)=1:HAPPEN=HAPPEN+1
+175 ? "Verifying move..."
+180 FOR E=4 TO 14:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>1 THEN F=5:GOTO 190
+182 GOSUB FSET
+184 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=1 AND A(D+AX*4,E+AY*4)=1 THEN 192
+190 NEXT F:NEXT D:NEXT E
+191 GOTO 201
+192 ? "}":? :? :? "SPLAT!":? :? "In ";INT(HAPPEN/2);" Moves, you managed to"
+193 ? :? "      †Ω◊ÈÓ†ÙËÂ†Á·ÌÂ†ÔÊ†¬ÔÁÁÏÂÚ°Ω†"
+194 ? :? "I suppose I'll give you $1000 WeIrd     bUCkS as a reward....":? :? "My job is on the line, I'll bet.. Snif!":? 
+195 REM MAYOR ADD $1000 TO THE GUY'S MONEY!
+197 ? :? "             †Ω√œŒ«“¡‘”°°Ω†":? :? "  (You don't crave a bagel anymore...)":? :END 
+201 MOVE=2:HAPPEN=HAPPEN+1
+202 IF HOLD=9 THEN HOLD=0:X=INT(RND(1)*10)+1:Y=INT(RND(1)*10)+1:X=X+4:Y=Y+4:GOTO 1000
+205 ? "My turn!   ":X=0:Y=0:HOLD=0:WIN=0
+210 GOSUB MSG
+215 FOR E=4 TO 14:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>2 THEN F=5:GOTO 245
+216 GOSUB FSET
+220 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=2 AND A(D-AX,E-AY)=0 THEN X=D-AX:Y=E-AY
+221 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=2 AND A(D+AX*4,E-AY*4)=0 THEN X=D+AX*4:Y=E-AY*4
+240 IF A(D+AX,E+AY)=0 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=2 AND A(D+AX*4,E+AY*4)=2 THEN X=D+AX:Y=E+AY
+241 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=0 AND A(D+AX*4,E+AY*4)=2 THEN X=D+AX*3:Y=E+AY*3
+242 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=0 AND A(D+AX*3,E+AY*3)=2 AND A(D+AX*4,E+AY*4)=2 THEN X=D+AX*2:Y=E+AY*2
+243 IF X<>0 AND Y<>0 THEN WIN=1:GOTO 1000
+245 NEXT F:NEXT D:NEXT E
+247 IF X<>0 AND Y<>0 THEN WIN=1:GOTO 1000
+250 GOSUB KILL
+255 FOR E=4 TO 14:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>1 THEN F=5:GOTO 275
+260 GOSUB FSET
+265 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=1 AND A(D+AX*4,E+AY*4)=0 THEN X=D+AX*4:Y=E+AY*4
+267 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=1 AND A(D-AX,E-AY)=0 THEN X=D-AX:Y=E-AY
+269 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=0 AND A(D+AX*3,E+AY*3)=1 AND A(D+AX*4,E+AY*4)=1 THEN X=D+AX*2:Y=E+AY*2
+270 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=0 AND A(D+AX*4,E+AY*4)=1 THEN X=D+AX*3:Y=E+AY*3
+271 IF A(D+AX,E+AY)=0 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=1 THEN X=D+AX:Y=E+AY
+274 IF X<>0 AND Y<>0 THEN 1000
+275 NEXT F:NEXT D:NEXT E
+276 IF X<>0 AND Y<>0 THEN 1000
+280 GOSUB MSG
+285 FOR E=4 TO 14:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>1 THEN F=5:GOTO 300
+290 GOSUB FSET
+295 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D+AX*3,E+AY*3)=0 THEN X=D+AX*3:Y=E+AY*3
+296 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=1 AND A(D-AX,E-AY)=0 THEN X=D-AX:Y=E-AY
+298 IF A(D+AX,E+AY)=1 AND A(D+AX*2,E+AY*2)=0 AND A(D+AX*3,E+AY*3)=1 THEN X=D+AX*2:Y=E+AY*2
+299 IF X<>0 AND Y<>0 THEN 1000
+300 NEXT F:NEXT D:NEXT E
+301 IF X<>0 AND Y<>0 THEN 1000
+305 GOSUB KILL
+310 FOR E=4 TO 14:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>2 THEN F=5:GOTO 340
+315 GOSUB FSET
+320 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=0 THEN X=D+AX*3:Y=E+AY*3
+322 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D-AX,E-AY)=0 THEN X=D-AX:Y=E-AY
+324 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=2 AND A(D+AX*3,E+AY*3)=0 AND A(D-AX,E-AY)=0 THEN HOLD=1
+325 IF HOLD=1 AND A(D-AX-AX,E-AY-AY)=0 THEN X=D-AX:Y=D-AY:HOLD=0
+339 IF X<>0 AND Y<>0 THEN 1000
+340 NEXT F:NEXT D:NEXT E
+345 IF X<>0 AND Y<>0 THEN 1000
+350 GOSUB MSG
+355 FOR E=14 TO 4 STEP -1:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>2 THEN F=5:GOTO 370
+360 GOSUB FSET
+365 IF A(D+AX,E+AY)=2 AND A(D+AX*2,E+AY*2)=0 THEN X=D+AX*2:Y=E+AY*2
+366 IF A(D-AX,E-AY)=2 AND A(D-AX-AX,E-AY-AY)=0 THEN X=D+AX-AX:Y=E+AY-AY
+369 IF X<>0 AND Y<>0 THEN 1000
+370 NEXT F:NEXT D:NEXT E
+371 IF X<>0 AND Y<>0 THEN 1000
+375 GOSUB KILL
+380 FOR E=14 TO 4 STEP -1:FOR D=4 TO 19:FOR F=1 TO 4:IF A(D,E)<>2 THEN F=5:GOTO 395
+385 GOSUB FSET
+390 IF A(D+AX,E+AY)=0 THEN X=D+AX:Y=E+AY
+394 IF X<>0 AND Y<>0 THEN 1000
+395 NEXT F:NEXT D:NEXT E
+396 IF X<>0 AND Y<>0 THEN 1000
+400 HOLD=9:GOTO 201
+1000 IF THINK=1 THEN GOSUB KILL
+1003 IF A(X,Y)<>0 THEN X=0:Y=0:GOTO 380
+1010 ? 
+1015 ? "My move is: ";
+1020 ? X-3;" - ";CHR$(Y-3+64);" .                   "
+1021 IF WIN=1 THEN ? "Press Return to go on...";:GOSUB IN:A(X,Y)=2
+1022 IF WIN<>1 THEN 1300
+1200 ? "}":? :? :? "    I †Ω◊…ŒΩ† the game! Ha! Ha! Ha!":? :? "     You lose $100!":? :? 
+1201 ? "So you go on forever and ever wandering":? "the streets of Weird City aimlessly":? "craving a bagel..."
+1205 ? :? "Hey! Smash return! ";:GOSUB IN
+1206 TRAP 1206:? "}":? "       Ω¬ÔÁÁÏÂÚ°Ω":? 
+1207 ? "         YOU LOSE!"
+1208 ? "          I WIN!":? 
+1209 ? "    ABCDEFGHIJKLMNOP"
+1210 FOR D=3 TO 15:IF D=3 OR D=15 THEN ? "   ";
+1211 FOR E=3 TO 20
+1212 IF A(D,E)=9 THEN ? "=";
+1213 IF A(D,E)=0 THEN ? ".";
+1214 IF A(D,E)=1 THEN ? "*";
+1215 IF A(D,E)=2 THEN ? "o";
+1216 NEXT E:? :IF D-2<12 THEN ? D-2;" ";:IF D-2<10 THEN ? " ";
+1217 NEXT D
+1218 ? :? "Hehehehe!"
+1256 ? :? :GOTO 47
+1300 A(X,Y)=2:MOVE=1
+1305 ? "Bash [Return] to go on...";:GOSUB IN
+1308 GOTO 100
+29999 END 
+30000 FOR D=0 TO 18
+30001 FOR E=0 TO 23
+30002 ? A(D,E);
+30003 NEXT E
+30004 ? 
+30005 NEXT D
